@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root 'static_pages#home'
-  get  'about',   controller: :static_pages, as: 'about'
-  get  'contact', controller: :static_pages, as: 'contact'
-  get  'help',    controller: :static_pages, as: 'help'
+  get  '/about',   to: 'static_pages#about'
+  get  '/contact', to: 'static_pages#contact'
+  get  '/help',    to: 'static_pages#help'
+  get  '/signup',  to: 'users#new'
+  resources :users, except: :new
 end
