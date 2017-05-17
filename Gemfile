@@ -24,12 +24,12 @@ group :development, :test do
 end
 
 group :development do
+  gem 'erb2haml'
   gem 'listen', '3.0.8'
   gem 'rubocop', require: false
   gem 'spring',                '1.7.2'
   gem 'spring-watcher-listen', '2.0.0'
-  gem 'web-console',           '3.1.1'
-  gem 'erb2haml'
+  gem 'web-console', '3.1.1'
 end
 
 group :test do
