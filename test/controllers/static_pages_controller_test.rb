@@ -14,18 +14,18 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
   test 'should get help' do
     get help_url
     assert_response :success
-    assert_select 'title', 'Help | '    + @default_title
+    assert_select 'title', "Help | #{@default_title}"
   end
 
   test 'should get about' do
     get about_url
     assert_response :success
-    assert_select 'title', 'About | '   + @default_title
+    assert_select 'title', "About | #{@default_title}"
   end
 
   test 'should get contact' do
     get contact_url
     assert_response :success
-    assert_select 'title', 'Contact | ' + @default_title
+    assert_select 'title', "Contact | #{@default_title}"
   end
 end
