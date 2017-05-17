@@ -7,6 +7,7 @@ gem 'carrierwave',             '0.11.2'
 gem 'coffee-rails',            '4.2.1'
 gem 'faker',                   '1.6.6'
 gem 'fog',                     '1.38.0'
+gem 'haml-rails'
 gem 'jbuilder',                '2.4.1'
 gem 'jquery-rails',            '4.1.1'
 gem 'mini_magick',             '4.5.1'
@@ -28,6 +29,7 @@ group :development do
   gem 'spring',                '1.7.2'
   gem 'spring-watcher-listen', '2.0.0'
   gem 'web-console',           '3.1.1'
+  gem 'erb2haml'
 end
 
 group :test do
