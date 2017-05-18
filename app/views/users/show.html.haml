@@ -1,2 +1,7 @@
-%h1 Users#show
-%p Find me in app/views/users/show.html.haml
+- provide(:title, @user.name)
+.row
+  %aside.col-md-4
+    %section.user-info
+      %h1
+        = gravatar_for @user
+        = @user.name
