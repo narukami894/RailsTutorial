@@ -4,6 +4,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = users(:michael)
     @other_user = users(:archer)
+    @unactivated_user = users(:hoge)
   end
 
   test 'should get new' do
@@ -27,6 +28,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_path(@user)
     assert_response :success
   end
+
+  test 'should redirect show if user is not activated' do
+    log_in_as @user
+    get user_path(@unactivated_user)
+    assert_redirected_to root_url
+  end
+
 
   test 'should get edit' do
     log_in_as @user
@@ -93,4 +101,5 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to users_url
   end
+
 end
