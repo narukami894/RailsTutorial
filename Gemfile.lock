@@ -68,6 +68,10 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
     debug_inspector (0.0.3)
+    dotenv (2.2.1)
+    dotenv-rails (2.2.1)
+      dotenv (= 2.2.1)
+      railties (>= 3.2, < 5.2)
     erb2haml (0.1.5)
       html2haml
     erubis (2.7.0)
@@ -391,6 +395,7 @@ DEPENDENCIES
   byebug (= 9.0.0)
   carrierwave (= 0.11.2)
   coffee-rails (= 4.2.1)
+  dotenv-rails
   erb2haml
   faker (= 1.6.6)
   fog (= 1.38.0)
