@@ -4,7 +4,7 @@ class User < ApplicationRecord
   attr_accessor :remember_token, :activation_token, :reset_token
   before_create :create_activation_digest
   before_save :downcase_email
-
+  has_many :microposts, dependent: :destroy
   has_secure_password
   validates :name,     presence: true, length: { maximum: 50 }
   validates :email,    presence: true, length: { maximum: 255 },
@@ -30,6 +30,10 @@ class User < ApplicationRecord
 
   def expired?(sent_at, deadline)
     sent_at < deadline
+  end
+
+  def feed
+    Micropost.where('user_id = ?', id)
   end
 
   def forget
