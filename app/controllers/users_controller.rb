@@ -27,8 +27,7 @@ class UsersController < ApplicationController
     redirect_to root_url and return unless @user.activated?
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @user.update_attributes(user_params)

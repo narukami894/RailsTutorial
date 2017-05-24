@@ -35,7 +35,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
   end
 
-
   test 'should get edit' do
     log_in_as @user
     get edit_user_path(@user)
@@ -101,5 +100,4 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to users_url
   end
-
 end
