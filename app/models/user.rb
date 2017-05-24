@@ -4,8 +4,24 @@ class User < ApplicationRecord
   attr_accessor :remember_token, :activation_token, :reset_token
   before_create :create_activation_digest
   before_save :downcase_email
+
   has_many :microposts, dependent: :destroy
+
+  # @user.active_relationships.newで follower_id: @user.idの Relationship.newができる
+  # relationshipは中間テーブル
+  has_many :active_relationships,  class_name:  'Relationship',
+                                   foreign_key: 'follower_id',
+                                   dependent:   :destroy
+  has_many :passive_relationships, class_name:  'Relationship',
+                                   foreign_key: 'followed_id',
+                                   dependent:   :destroy
+  # followed(_id)の集合体がfollowing 間接的にUserモデルを自己参照している
+  has_many :following, through: :active_relationships,  source: :followed
+  # source: :followerはこの場合書く必要はないがfollowingと合わせている
+  has_many :followers, through: :passive_relationships, source: :follower
+
   has_secure_password
+
   validates :name,     presence: true, length: { maximum: 50 }
   validates :email,    presence: true, length: { maximum: 255 },
                        format: { with: VALID_EMAIL_REGEX },
@@ -33,7 +49,22 @@ class User < ApplicationRecord
   end
 
   def feed
-    Micropost.where('user_id = ?', id)
+    # さいしょ
+    # Micropost.where('user_id IN (?) OR user_id = ?', following_ids, id)
+    # つぎ
+    # Micropost.where('user_id IN (:following_ids) OR user_id = :user_id',
+    #                 following_ids: following_ids, user_id: id)
+    # サブセレクトをつかう
+    following_ids = 'SELECT followed_id FROM relationships WHERE follower_id = :user_id'
+    Micropost.where("user_id IN (#{following_ids}) OR user_id = :user_id", user_id: id)
+  end
+
+  def follow(other_user)
+    active_relationships.create(followed_id: other_user.id)
+  end
+
+  def following?(other_user)
+    following.include?(other_user)
   end
 
   def forget
@@ -51,6 +82,10 @@ class User < ApplicationRecord
 
   def send_password_reset_email
     UserMailer.password_reset(self).deliver_now
+  end
+
+  def unfollow(other_user)
+    active_relationships.find_by(followed_id: other_user.id).destroy
   end
 
   class << self
